@@ -6,14 +6,12 @@ import qrcode
 from time import sleep
 
 # Functions and variables
-from var import currency, fontA, fontB, lnurl, picdir, price, suceess_screen_expiry
+from var import currency, fontA, fontB, lnurl, picdir, price, suceess_screen_expiry, suggested_wallets
 from display import display_overlay, display_screen, epd
 from waveshare_epd import epd3in7
 
 canvas_width = epd3in7.EPD_WIDTH
 canvas_height = epd3in7.EPD_HEIGHT
-
-suggested_wallets = ['cashapp', 'coinos', 'shakepay']
 
 #canvas = Image.new('1', (canvas_width, canvas_height), 'white')
 
@@ -78,8 +76,8 @@ def make_idlescreen():
 
     for i in suggested_wallets:
         load_logos(i)
-        idle_img.paste(logo_img_s, (65, 70 + suggested_wallets.index(i) * 55))
-        draw.text((125, 95 + suggested_wallets.index(i) * 55), i, font = fontA, anchor="lm")
+        idle_img.paste(logo_img_s, (45, 70 + suggested_wallets.index(i) * 55))
+        draw.text((105, 95 + suggested_wallets.index(i) * 55), i, font = fontA, anchor="lm")
         display_overlay(idle_img)
 
     make_qrcode()

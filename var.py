@@ -24,6 +24,8 @@ lnurl = os.getenv("LNURL")
 price = os.getenv("PRICE")
 currency = os.getenv("CURRENCY")
 
+suggested_wallets = json.loads(os.environ['SUGGESTED_WALLETS'])
+
 ##### SYSTEM #####
 
 debuglevel = os.getenv("DEBUG_LEVEL", "INFO")
