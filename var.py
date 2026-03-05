@@ -14,10 +14,19 @@ load_dotenv()
 
 start_time = time.time()
 
-##### BITCOIN SWITCH #####
+##### SETUP #####
 
 ws_switch = os.getenv("BITCOIN_SWITCH_WS")
-lnurl = os.getenv("LNURL")
+x_api_key = os.getenv("LNBITS_INVOICE_KEY")
+lnurl = os.getenv("LNBITS_LNURL")
+
+lnbits_server = os.getenv("LNBITS_SERVER", ws_switch.split("/")[2])
+lnbits_wallet = os.getenv("LNBITS_WALLET")
+acl_api_token = os.getenv("LNBITS_ACL_TOKEN")
+switch_title = os.getenv("BITCOIN_SWITCH_TITLE", "Zapshutter")
+
+
+#x_api_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ6YXBzaHV0dGVyZGV2IiwiYXV0aF90aW1lIjoxNzcyNjU3NDYyLCJhcGlfdG9rZW5faWQiOiI4ZTdhZmEzMDE4NmI0NmZmYmFhM2Y1YzExMjNkZDQ3NyIsImV4cCI6MjA4ODIzMDM0Mn0.IbvvL3nV1-h1J_ua6UhmgpijF-Jb1bJIIwDmCEfsUAc"
 
 ##### MERCHANT #####
 
@@ -42,7 +51,8 @@ production = os.getenv("PRODUCTION", "True").lower() in ('true', '1', 't')
 ##### TRIGGER #####
 
 #tray0 = json.loads(os.environ['TRAY0'])
-
+pulse_pin = float(os.getenv("PULSE_PIN", 5))
+pulse_duration = float(os.getenv("PULSE_DURATION", 500)) / 1000
 relay_duration = float(os.getenv("RELAY_DURATION", 500)) / 1000
 
 ##### DISPLAY #####

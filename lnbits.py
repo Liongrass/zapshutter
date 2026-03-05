@@ -3,56 +3,85 @@ import logging
 import requests
 
 # Functions and variables
-from var import ws_switch
+from var import acl_api_token, currency, lnbits_server, lnbits_wallet, lnurl, price, switch_title, ws_switch, x_api_key
 
-#https://send.laisee.org/bitcoinswitch/api/v1/lnurl/{bitcoinswitch_id}
-#wss://send.laisee.org/api/v1/ws/WB4kjkTtQRVWdSL7FeV6b3
-
-#lnbits_server = "signet.laisee.org"
-lnbits_server = "send.laisee.org"
 url_base_switch = "https://" + lnbits_server + "/bitcoinswitch/api/v1"
 url_base_payments = "https://" + lnbits_server + "/api/v1/payments"
-#x_api_key = "235eb950955d40ee90998891a161a7db" #invoice key
-x_api_key = "be3025cd178a46379c392f07f085c471" #admin key
-#x_api_key = "80b5f93507b142f4a60bdb5e07eb79e6" #signet admin key
 
-def params():
-        params =	{"title": False,
-                 	"wallet": wallet,
-					"currency": "sat",
-                	"switches": [
-                  		{}
-                  	],
-                	"password": "string",
-    				"disabled": false,
-    				"disposable": true}
-        logging.debug(f"Invoice parameters: {params}")
-        return params
+def define_switch():
+	params = 	{"title": switch_title,
+  				"wallet": wallet_id,
+  				"currency": currency,
+  				"switches": [
+    			{
+      			"amount": price,
+      			"duration": 1000,
+      			"pin": 5,
+      			"comment": True,
+      			"variable": False,
+      			"label": switch_title}
+  				],
+  				#"password": "",
+  				"disabled": False,
+  				"disposable": False
+				}
+	return params
 
-headers = {"X-Api-Key" : x_api_key,
-           "Content-type" : "application/json"}
+def get_headers():
+	global headers
+	if web_setup == True:
+		headers = {"X-Api-Key" : x_api_key, "Content-type" : "application/json"}
+	else:
+		headers = {'accept' : 'application/json', 'Authorization' : f'Bearer {acl_api_token}'}
+	return headers
+
+def get_setup_method():
+	global web_setup
+	try:
+		x_api_key
+	except IndexError:
+		logging.debug("LNbits invoice key not found.")
+		logging.info("Continuing by setting up Bitcoin Switch Extension")
+		web_setup = False
+		#get_switches()
+		#get_lnurl()
+	else:
+		logging.debug("LNbits invoice key found.")
+		logging.info("Not setting up anything.")
+		web_setup = True
 
 def get_switches():
-	print(url_base)
+	print(url_base_switch)
 	print(headers)
-	switches = requests.get(url_base_switch, headers=headers)
-	print(switches)
-	print("WOHOO")
+	switches_request = requests.get(url_base_switch, headers=get_headers())
+	global switches
+	switches = switches_request.json()
+	logging.debug(switches) 
+	if ['title'] == switch_title in switches:
+		logging.debug(f"Switch found. Continuing")
+	else:
+		logging.debug(f"No switch found. Creating switch.")
+		create_switch()
 
+def create_switch():
+	new_switch = requests.post(url_base_switch, json=define_switch(), headers=get_headers())
+	print(new_switch.json())
+
+'''
 def get_lnurl():
-	print(url_base)
+	print(url_base_switch)
 	print(headers)
 	#params = {"pin": 5}
-	url = url_base + "/" + "WB4kjkTtQRVWdSL7FeV6b3"
-	lnurl_request = requests.get(url, headers=headers)
+	url = url_base_switch + "/" + "WB4kjkTtQRVWdSL7FeV6b3"
+	lnurl_request = requests.get(url, headers=get_headers())
 	lnurl = lnurl_request.json()
 	print(lnurl)
 	print("WOHOO")
+'''
 
 def get_payments():
-	payments_request = requests.get(url_base_payments, headers=headers)
+	payments_request = requests.get(url_base_payments, headers=get_headers())
 	payments = payments_request.json()
-	#global amount
 	amount = payments[0]['amount']/1000
 	logging.info(f"Payment received: {amount} satoshi")
 	return amount
@@ -67,35 +96,3 @@ def get_payments():
 4. Update switch
 5. Retrieve LNURL
 6. Listen to websockets
-
-https://send.laisee.org/bitcoinswitch/api/v1
-{
-
-    "title": "string",
-    "wallet": "string",
-    "currency": "string",
-    "switches": [
-        {}
-    ],
-    "password": "string",
-    "disabled": false,
-    "disposable": true
-
-}
-
-
-https://send.laisee.org/bitcoinswitch/api/v1/{bitcoinswitch_id}
-{
-
-    "title": "string",
-    "wallet": "string",
-    "currency": "string",
-    "switches": [
-        {}
-    ],
-    "password": "string",
-    "disabled": false,
-    "disposable": true
-
-}
-'''

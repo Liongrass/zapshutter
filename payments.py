@@ -18,9 +18,9 @@ async def listener():
     logging.info(f"Listening on {ws_switch}")
 
 async def listener():
-    async with websockets.connect(ws_switch) as websocket:
-        logging.info(f"Connected to {ws_switch}. Listening for incoming payments.")
-        while True:
+    while True:
+        async with websockets.connect(ws_switch) as websocket:
+            logging.info(f"Connected to {ws_switch}. Listening for incoming payments.")
             make_idlescreen()
             try:
                 response_str = await websocket.recv()
@@ -51,11 +51,11 @@ async def listener():
                 logging.debug(f"Connection closed: {e}")
                 initialize()
                 make_errorscreen()
-                sleep(display_expiry)
+                sleep(suceess_screen_expiry)
             except websockets.exceptions.InvalidStatus as e:
                 logging.debug(f"Failed to make connection: {e}")
                 initialize()
                 make_errorscreen()
-                sleep(display_expiry)
+                sleep(suceess_screen_expiry)
             except asyncio.CancelledError:
                 shutdown()

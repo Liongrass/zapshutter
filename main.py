@@ -4,7 +4,7 @@ import logging
 
 # Functions and variables
 from display import check_display, initialize, shutdown
-from lnbits import get_lnurl, get_switches
+from lnbits import define_switch, get_lnurl, get_setup_method, get_switches
 from payments import listener
 from screens import make_idlescreen
 
@@ -15,10 +15,9 @@ from screens import make_idlescreen
 async def main():
 	try:
 		logging.info("Starting Zapshutter")
+		get_setup_method()
 		check_display()
 		initialize()
-		#get_switches()
-		#get_lnurl()
 		await listener()
 
 	except KeyboardInterrupt:
