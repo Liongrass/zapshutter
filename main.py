@@ -4,7 +4,7 @@ import logging
 
 # Functions and variables
 from display import check_display, initialize, shutdown
-from lnbits import define_switch, get_lnurl, get_setup_method, get_switches
+from lnbits import define_switch, get_setup_method, get_switches
 from payments import listener
 from screens import make_idlescreen
 

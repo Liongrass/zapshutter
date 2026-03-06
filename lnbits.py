@@ -96,3 +96,4 @@ def get_payments():
 4. Update switch
 5. Retrieve LNURL
 6. Listen to websockets
+'''
