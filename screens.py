@@ -34,7 +34,7 @@ def make_qrcode():
         box_size=5,
         border=1,
         )
-    qr.add_data(lnurl.upper())
+    qr.add_data(lnurl)
     qr.make(fit=True)
     global qr_img
     qr_img = qr.make_image(fill_color='black', back_color='white')

@@ -19,10 +19,10 @@ async def listener():
 
 async def listener():
     while True:
-        async with websockets.connect(ws_switch) as websocket:
-            logging.info(f"Connected to {ws_switch}. Listening for incoming payments.")
-            make_idlescreen()
-            try:
+        try:
+            async with websockets.connect(ws_switch) as websocket:
+                logging.info(f"Connected to {ws_switch}. Listening for incoming payments.")
+                make_idlescreen()
                 response_str = await websocket.recv()
                 print(response_str)
                 response = response_str.split("-")
@@ -47,15 +47,15 @@ async def listener():
                 make_confirmation_screen(amount, comment)
                 logging.debug(f"Waiting {suceess_screen_expiry}s")
                 sleep(suceess_screen_expiry)
-            except websockets.exceptions.ConnectionClosed as e:
-                logging.debug(f"Connection closed: {e}")
-                initialize()
-                make_errorscreen()
-                sleep(suceess_screen_expiry)
-            except websockets.exceptions.InvalidStatus as e:
-                logging.debug(f"Failed to make connection: {e}")
-                initialize()
-                make_errorscreen()
-                sleep(suceess_screen_expiry)
-            except asyncio.CancelledError:
-                shutdown()
+        except websockets.exceptions.ConnectionClosed as e:
+            logging.debug(f"Connection closed: {e}")
+            initialize()
+            make_errorscreen()
+            sleep(suceess_screen_expiry)
+        except websockets.exceptions.InvalidStatus as e:
+            logging.debug(f"Failed to make connection: {e}")
+            initialize()
+            make_errorscreen()
+            sleep(suceess_screen_expiry)
+        except asyncio.CancelledError:
+            shutdown()
