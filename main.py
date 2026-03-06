@@ -3,7 +3,7 @@ import asyncio
 import logging
 
 # Functions and variables
-from display import check_display, initialize, shutdown
+from display import check_display, shutdown
 from lnbits import define_switch, get_setup_method, get_switches
 from payments import listener
 from screens import make_idlescreen
@@ -17,7 +17,6 @@ async def main():
 		logging.info("Starting Zapshutter")
 		get_setup_method()
 		check_display()
-		initialize()
 		await listener()
 
 	except KeyboardInterrupt:

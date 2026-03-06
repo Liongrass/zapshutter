@@ -34,6 +34,8 @@ suggested_wallets = json.loads(os.environ['SUGGESTED_WALLETS'])
 
 ##### SYSTEM #####
 
+error = False
+
 debuglevel = os.getenv("DEBUG_LEVEL", "INFO")
 
 file_handler = logging.FileHandler('zapshutter.log')
