@@ -4,7 +4,11 @@ A simple point of sale devices leveraging LNbits' Bitcoin Switch extension.
 
 ## Prerequisites:
 
-This guide and the code are optimized for Rasperry Pi OS (Bookworm).
+This guide and the code are optimized for Rasperry Pi OS (Bookworm) running on a Pi Zero W.
+
+`sudo apt install git`
+
+`sudo apt install python3.11-dev`
 
 Enable the SPI interface:
 
@@ -48,15 +52,9 @@ To make the code run on startup and restart after a crash, we are using the PM2 
 
 Prerequisites:
 
-`sudo apt install git make build-essential`
+`sudo apt install npm`
 
-`curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash`
-
-`\. "$HOME/.nvm/nvm.sh"`
-
-`nvm install 24`
-
-`npm install -g pm2`
+`sudo npm install -g pm2`
 
 ### Persist Zapshutter
 
