@@ -6,7 +6,6 @@ from time import sleep
 
 # Functions and variables
 from display import shutdown
-from lnbits import get_payments
 from screens import make_confirmation_screen, make_idlescreen, make_success_overlay
 from trigger import pulse
 from var import error, suceess_screen_expiry, ws_switch
@@ -41,12 +40,11 @@ async def listener():
                 else:
                     comment = response[2]
                 logging.debug(f"Incoming message: {response}")
-                amount = get_payments()
                 make_success_overlay()
                 pulse(pin, duration)
                 logging.debug(f"Waiting {suceess_screen_expiry}s")
                 sleep(suceess_screen_expiry)
-                make_confirmation_screen(amount, comment)
+                make_confirmation_screen(comment)
                 logging.debug(f"Waiting {suceess_screen_expiry}s")
                 sleep(suceess_screen_expiry)
         except websockets.exceptions.ConnectionClosed as e:

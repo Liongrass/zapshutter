@@ -17,18 +17,9 @@ start_time = time.time()
 ##### SETUP #####
 
 ws_switch = os.getenv("BITCOIN_SWITCH_WS")
-x_api_key = os.getenv("LNBITS_INVOICE_KEY")
 lnurl = os.getenv("LNBITS_LNURL")
 
-lnbits_server = os.getenv("LNBITS_SERVER", ws_switch.split("/")[2])
-lnbits_wallet = os.getenv("LNBITS_WALLET")
-acl_api_token = os.getenv("LNBITS_ACL_TOKEN")
-switch_title = os.getenv("BITCOIN_SWITCH_TITLE", "Zapshutter")
-
 ##### MERCHANT #####
-
-price = os.getenv("PRICE")
-currency = os.getenv("CURRENCY")
 
 suggested_wallets = json.loads(os.environ['SUGGESTED_WALLETS'])
 

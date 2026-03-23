@@ -6,7 +6,7 @@ import qrcode
 from time import sleep
 
 # Functions and variables
-from var import currency, fontA, fontB, lnurl, picdir, price, suceess_screen_expiry, suggested_wallets
+from var import fontA, fontB, lnurl, picdir, suceess_screen_expiry, suggested_wallets
 from display import display_overlay, display_screen, epd, initialize
 from waveshare_epd import epd3in7
 
@@ -34,7 +34,7 @@ def make_qrcode():
         box_size=5,
         border=1,
         )
-    qr.add_data(lnurl.upper())
+    qr.add_data(lnurl)
     qr.make(fit=True)
     global qr_img
     qr_img = qr.make_image(fill_color='black', back_color='white')
@@ -91,13 +91,11 @@ def load_logos(i):
     logo_img_s = logo_img.resize((50, 50))
     return logo_img_s
 
-def make_confirmation_screen(amount, comment):
+def make_confirmation_screen(comment):
     photo_img = canvas()
     draw = ImageDraw.Draw(photo_img)
     draw.text((140, 20), "Payment Received!", font = fontB, anchor="ma")
     display_screen(photo_img)
-    #draw.text((20, 80), str(price) + " " + currency, font = fontB, anchor="lm")
-    #draw.text((20, 100), str(amount) + " satoshi", font = fontA, anchor="lm")
     if comment != "":
         draw.text((20, 70), "Your comment:", font = fontA, anchor="lm")
         draw.text((20, 95), comment, font = fontA, anchor="lm")
